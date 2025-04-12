@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+      xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+      xsi:schemaLocation="
+        http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+
+  <flow name="extFlexApiFlow">
+    <!-- Log receipt and transform the request if needed -->
+    <logger message="ext-flexapi received payload: #[payload]" level="INFO" doc:name="Logger"/>
+    <!-- (Transformation logic can be inserted here; for simplicity, we pass it on) -->
+    <set-payload value="#[payload]" doc:name="Set Payload"/>
+    <!-- Forward the request to the internal Mule API (int-muleapi) via HTTP Request -->
+    <http:request config-ref="HTTP_Request_Internal" path="/openbanking/int" method="GET" doc:name="HTTP Request"/>
+  </flow>
+
+  <!-- HTTP Request configuration pointing to int-muleapi -->
+  <http:request-config name="HTTP_Request_Internal" host="localhost" port="8082" protocol="HTTP" />
+</mule>

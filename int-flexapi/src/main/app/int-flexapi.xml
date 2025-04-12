@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+      xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+      xsi:schemaLocation="
+        http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+
+  <flow name="intFlexApiFlow">
+    <logger message="int-flexapi transforming payload: #[payload]" level="INFO" doc:name="Logger"/>
+    <!-- Transformation logic (mapping, enrichment, etc.) can be added here -->
+    <set-payload value="#[payload]" doc:name="Set Payload"/>
+    <!-- Call internal Java API (Spring Boot) -->
+    <http:request config-ref="HTTP_Request_intJava_config" path="/api" method="GET" doc:name="HTTP Request"/>
+  </flow>
+
+  <http:request-config name="HTTP_Request_intJava_config" host="localhost" port="8080" protocol="HTTP" doc:name="HTTP Request Configuration"/>
+</mule>

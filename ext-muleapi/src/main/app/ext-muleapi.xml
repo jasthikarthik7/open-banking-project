@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+      xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+      xsi:schemaLocation="
+        http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+
+  <http:listener-config name="HTTP_Listener_config" host="0.0.0.0" port="8081" doc:name="HTTP Listener Configuration"/>
+
+  <flow name="extMuleApiFlow">
+    <http:listener path="/openbanking/ext/*" config-ref="HTTP_Listener_config" doc:name="HTTP Listener"/>
+    <logger message="ext-muleapi received request: #[payload]" level="INFO" doc:name="Logger"/>
+    <!-- Route to external flexible API flow -->
+    <flow-ref name="extFlexApiFlow" doc:name="Flow Reference"/>
+  </flow>
+</mule>
